@@ -3,15 +3,7 @@ import Login from "./pages/login/Login.jsx";
 import List from "./pages/list/List.jsx";
 import Single from "./pages/single/Single.jsx";
 import New from "./pages/new/New.jsx";
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Routes,
-  Route,
-  Link,
-  BrowserRouter,
-  Router,
-} from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 
 function App() {
   return (

@@ -1,9 +1,11 @@
 # Introduction
 This project is a admin dashboard. The main technique is React to build this dashboard.
 
-## Some of Techniques I've using in this project:
+## Some of Techniques/Libraries I've using in this project:
+- React.js
 - SCSS (to styling)
 - React router library
+- Material UI
 
 
 ## Getting Started with Create React App
