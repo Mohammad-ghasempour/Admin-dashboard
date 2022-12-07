@@ -4,4 +4,13 @@
     -webkit-box-shadow: 2px 5px 10px 1px rgba(0, 0, 0, 0.26);
     -moz-box-shadow: 2px 5px 10px 1px rgba(0, 0, 0, 0.26);
     padding: 10px;
+    color: gray;
+
+    .title{
+        margin-bottom: 20px;
+    }
+
+    .chartGrid{
+        stroke: rgb(227, 227, 227);
+    }
 }
