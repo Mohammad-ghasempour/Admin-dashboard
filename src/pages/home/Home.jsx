@@ -3,32 +3,32 @@ import Chart from "../../components/chart/Chart";
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Widget from "../../components/widget/Widget";
-import "./home.scss"
-
+import MyTable from "../../components/table/MyTable";
+import "./home.scss";
 
 const Home = () => {
   return (
-    <div className='home'>
-      <Sidebar/>
+    <div className="home">
+      <Sidebar />
       <div className="homeContainer">
-        <Navbar/>
+        <Navbar />
         <div className="widgets">
-        <Widget type="users"/>
-        <Widget type="orders"/>
-        <Widget type="earnings"/>
-        <Widget type="myBalance"/>
+          <Widget type="users" />
+          <Widget type="orders" />
+          <Widget type="earnings" />
+          <Widget type="myBalance" />
         </div>
         <div className="charts">
-          <Featured/>
-          <Chart/>
-          
+          <Featured />
+          <Chart />
         </div>
-        
+        <div className="listContainer">
+          <div className="listTitle">Latest transaction</div>
+          <MyTable/>
         </div>
-    
+      </div>
     </div>
-    
-  )
-}
+  );
+};
 
 export default Home;

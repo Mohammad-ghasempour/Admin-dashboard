@@ -6,15 +6,19 @@ This project is a admin dashboard. The main technique is React to build this das
 - SCSS (to styling)
 - React router library
 - Material UI
+- Recharts library (to create a chart)
 
 
 ## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+### Extension and features I've used in this project
 
-In the project directory, you can run:
+- A circular progressbar component, built with SVG and extensively customizable [React Circular Progressbar](https://www.npmjs.com/package/react-circular-progressbar)
+- A simple useful chart for react applications [Recharts](https://recharts.org/en-US/)
+
+
 
 ### `npm start`
 
