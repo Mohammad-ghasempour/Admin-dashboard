@@ -15,17 +15,19 @@
         box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
         -webkit-box-shadow: 2px 5px 10px 1px rgba(0, 0, 0, 0.26);
         -moz-box-shadow: 2px 5px 10px 1px rgba(0, 0, 0, 0.26);
-        padding: 10px;
+        padding: 20px;
         position: relative;
-        .editbutton {
+
+        .editButton {
           position: absolute;
           top: 0;
           right: 0;
           color: rgb(149, 12, 149);
           background-color: rgba(128, 0, 128, 0.16);
-          padding: 2px 5px;
+          padding: 5px;
           font-size: 12px;
           border-bottom-left-radius: 3px;
+          cursor: pointer;
         }
         .item {
           display: flex;
@@ -54,14 +56,6 @@
                 font-weight: 300;
               }
             }
-
-            .item {
-              font-size: 24px;
-              font-weight: 600;
-              color: rgb(111, 110, 110);
-            }
-            .itemInfo {
-            }
           }
         }
       }
@@ -69,11 +63,19 @@
         flex: 2;
       }
     }
-    
-    .title{
-        font-size: 16px;
-        color: lightgray;
-        margin-bottom: 20px;
+
+    .bottom{
+      box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+      -webkit-box-shadow: 2px 5px 10px 1px rgba(0, 0, 0, 0.26);
+      -moz-box-shadow: 2px 5px 10px 1px rgba(0, 0, 0, 0.26);
+      padding: 20px;
+      margin: 10px 20px;
+    }
+
+    .title {
+      font-size: 16px;
+      color: lightgray;
+      margin-bottom: 20px;
     }
   }
 }

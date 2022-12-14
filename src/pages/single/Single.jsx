@@ -1,6 +1,8 @@
 import "./single.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
+import Chart from "../../components/chart/Chart"
+import List from "../../components/table/MyTable"
 
 const Single = () => {
   return (
@@ -10,7 +12,7 @@ const Single = () => {
         <Navbar />
         <div className="top">
           <div className="left">
-            <div className="editbutton">Edit</div>
+            <div className="editButton">Edit</div>
             <h1 className="title">Information</h1>
             <div className="item">
               <img
@@ -18,7 +20,7 @@ const Single = () => {
                 src="https://i.pinimg.com/280x280_RS/27/36/dd/2736dd96c2680c4a9722c7b778ff4602.jpg"
               />
               <div className="details">
-                <h1 className="itemTitle">Mohammad Ghasempour</h1>
+                <h2 className="itemTitle">Mohammad Gh</h2>
                 <div className="itemInfo">
                   <span className="itemKey">Email:</span>
                   <span className="itemValue">M.gh84@gmail.com</span>
@@ -38,9 +40,14 @@ const Single = () => {
               </div>
             </div>
           </div>
-          <div className="right"></div>
+          <div className="right">
+            <Chart aspect={3/1} title={'User Spending (Last 6 Months)'}/>
+          </div>
         </div>
-        <div className="bottom"></div>
+        <div className="bottom">
+          <h1 className="title">Last Transactions</h1>
+          <List/>
+        </div>
       </div>
     </div>
   );
