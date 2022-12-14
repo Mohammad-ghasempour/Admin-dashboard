@@ -1,8 +1,9 @@
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import "./new.scss";
+import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
 
-const New = () => {
+const New = ({inputs , title}) => {
   return (
     <div className="new">
       <Sidebar />
@@ -10,7 +11,7 @@ const New = () => {
       <div className="newContainer">
         <Navbar />
         <div className="top">
-          <h1>Add new User</h1>
+          <h1>{title}</h1>
         </div>
         <div className="bottom">
           <div className="left">
@@ -22,25 +23,18 @@ const New = () => {
           <div className="right">
             <form>
               <div className="formInput">
-                <label>Username</label>
-                <input type="text" placeholder="Mohammad-ghasempour" />
+                <label htmlFor="uploadImage">Image: <DriveFolderUploadIcon className="icon"/></label>
+                <input type="file" id="uploadImage" style={{display:"none"}} />
               </div>
-              <div className="formInput">
-                <label>Name and Surname</label>
-                <input type="text" placeholder="Mohammad Ghasempour" />
-              </div>
-              <div className="formInput">
-                <label>Email</label>
-                <input type="email" placeholder="M.gh84nor" />
-              </div>
-              <div className="formInput">
-                <label>Phone</label>
-                <input type="text" placeholder="+47 938 28 281" />
-              </div>
-              <div className="formInput">
-                <label>Email</label>
-                <input type="email" placeholder="+47 938 28 281" />
-              </div>
+             {inputs.map((input)=>{
+                return(
+                  <div className="formInput">
+                  <label>{input.label}</label>
+                  <input type={input.type} placeholder={input.placeholder}/>
+                </div>
+                )
+             })}
+              <button>Send</button>
             </form>
           </div>
         </div>
