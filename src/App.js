@@ -4,11 +4,12 @@ import List from "./pages/list/List.jsx";
 import Single from "./pages/single/Single.jsx";
 import New from "./pages/new/New.jsx";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import {userInputs, productInputs} from "./formSource"
+import {userInputs, productInputs} from "./formSource";
+import "./style/dark.scss"
 
 function App() {
   return (
-    <div>
+    <div className="app dark">
       <BrowserRouter>
         <Routes>
           <Route path="/">

@@ -3,22 +3,35 @@ import { DataGrid } from "@mui/x-data-grid";
 import "../../dataTableSource";
 import { userRows } from "../../dataTableSource";
 import { userColumns } from "../../dataTableSource";
+import { Link } from "react-router-dom";
 
 const DataTable = () => {
-  
-  const actionCulumn = [{
-    field: 'action' , headerName: 'Action' , width:200, renderCell:()=>{
-      return (<div className="cellAction">
-        <div className="cellView">View</div>
-        <div className="cellDelete">Delete</div>
+  const actionCulumn = [
+    {
+      field: "action",
+      headerName: "Action",
+      width: 200,
+      renderCell: () => {
+        return (
+          <div className="cellAction">
+            <Link to="/users/test" style={{ textDecoration: "none" }}>
+              <div className="cellView">View</div>
+            </Link>
+            <div className="cellDelete">Delete</div>
+          </div>
+        );
+      },
+    },
+  ];
 
-      </div>)
-    }
-  }]
-  
-  
   return (
     <div className="dataTable">
+      <div className="dataTableTitle">
+        Add New User
+        <Link to="/users/new" className="link">
+          Add new
+        </Link>
+      </div>
       <DataGrid
         rows={userRows}
         columns={userColumns.concat(actionCulumn)}
