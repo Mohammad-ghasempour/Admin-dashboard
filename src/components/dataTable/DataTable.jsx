@@ -33,6 +33,8 @@ const DataTable = () => {
         </Link>
       </div>
       <DataGrid
+        sx={{ "& .MuiDataGrid-cell": { borderColor: "#333" } }}
+        className="dataGrid"
         rows={userRows}
         columns={userColumns.concat(actionCulumn)}
         pageSize={9}

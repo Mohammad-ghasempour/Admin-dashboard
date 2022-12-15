@@ -50,4 +50,26 @@
       border-color: rgb(55, 55, 55);
     }
   }
+
+  .dataTable {
+    .dataGrid {
+      border: none;
+      color: #999;
+      padding-bottom: 18px;
+      .MuiTablePagination-displayedRows , .MuiSvgIcon-root {
+        color: #999;
+      };
+  
+    }
+    .cellView , .cellDelete , .cellWithStatus{
+      color:gray;
+      border: none;
+    }
+  }
+  .formInput{
+    input{
+      background: transparent;
+      color: lightgray;
+    }
+  }
 }
