@@ -10,7 +10,9 @@ This project is a admin dashboard. The main technique is 'React' to build this d
 - Recharts library (to create a chart)
 
 
+## Some points that used to develope this project:
 
+- Local storage in browser
 
 
 
