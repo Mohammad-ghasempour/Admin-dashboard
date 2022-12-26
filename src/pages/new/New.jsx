@@ -2,11 +2,96 @@ import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import "./new.scss";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import {
+  doc,
+  setDoc,
+  addDoc,
+  collection,
+  serverTimestamp,
+} from "firebase/firestore";
+import { db, auth, storage } from "../../firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  ref,
+  uploadBytesResumable,
+  getStorage,
+  getDownloadURL,
+} from "firebase/storage";
+import { useNavigate } from "react-router-dom";
 
 const New = ({ inputs, title }) => {
   const [file, setFile] = useState("");
-  console.log(file);
+  const [data, setData] = useState({});
+  const [percentage, setPercentage] = useState(null);
+
+  const navigate = useNavigate();
+
+
+  useEffect(() => {
+    const uploadImage = () => {
+      const fileName = new Date().getTime() + file.name;
+
+      const storageRef = ref(storage, fileName);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          setPercentage(progress);
+          switch (snapshot.state) {
+            case "paused":
+              console.log("Upload is paused");
+              break;
+            case "running":
+              console.log("Upload is running");
+              break;
+          }
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setData((prevState) => ({ ...prevState, imgUrl: downloadURL }));
+          });
+        }
+      );
+    };
+    file && uploadImage();
+  }, [file]);
+
+  console.log(data);
+
+  const handleInput = (e) => {
+    const id = e.target.id;
+    const value = e.target.value;
+    setData({ ...data, [id]: value });
+  };
+
+  const handleAdd = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await createUserWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
+
+      await setDoc(doc(db, "users", res.user.uid), {
+        ...data,
+        timeStamp: serverTimestamp(),
+      });
+      /////////////////////////////////
+      navigate(-1);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="new">
       <Sidebar />
@@ -28,7 +113,7 @@ const New = ({ inputs, title }) => {
             />
           </div>
           <div className="right">
-            <form>
+            <form onSubmit={handleAdd}>
               <div className="formInput">
                 <label htmlFor="uploadImage">
                   Image: <DriveFolderUploadIcon className="icon" />
@@ -44,11 +129,21 @@ const New = ({ inputs, title }) => {
                 return (
                   <div className="formInput" key={input.id}>
                     <label>{input.label}</label>
-                    <input type={input.type} placeholder={input.placeholder} />
+                    <input
+                      type={input.type}
+                      placeholder={input.placeholder}
+                      id={input.id}
+                      onChange={handleInput}
+                    />
                   </div>
                 );
               })}
-              <button>Send</button>
+              <button
+                type="submit"
+                disabled={percentage !== null && percentage < 100}
+              >
+                Send
+              </button>
             </form>
           </div>
         </div>
