@@ -38,8 +38,12 @@ const DataTable = () => {
       "are you sure to delete  '" + name.userName + "'  from database?!"
     );
     if (answer) {
-      await deleteDoc(doc(db, "users", id));
-      setMyRows(myRows.filter((item) => item.id !== id));
+      try {
+        await deleteDoc(doc(db, "users", id));
+        setMyRows(myRows.filter((item) => item.id !== id));
+      } catch (err) {
+        console.log(err);
+      }
     } else {
       return;
     }

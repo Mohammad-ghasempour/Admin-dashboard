@@ -8,6 +8,7 @@ This project is a admin dashboard. The main technique is 'React' to build this d
 - React Context api
 - Material UI
 - Recharts library (to create a chart)
+- Firebase (Authentication , Firestore Database , Realtime Database , Storage)
 
 
 ## Some points that used to develope this project:
