@@ -1,15 +1,18 @@
 import "./dataTable.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import "../../dataTableSource";
-import { userRows } from "../../dataTableSource";
-import { userColumns } from "../../dataTableSource";
+import { userRows , productsRows } from "../../dataTableSource";
+import { userColumns , productColumns } from "../../dataTableSource";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 
-const DataTable = () => {
+const DataTable = ({type}) => {
   const [myRows, setMyRows] = useState([]);
+
+  const rowsType = type === "Users" ? myRows : type === "Products" ? productsRows : null;
+  const culumnType = type === "Users" ? userColumns : type === "Products" ? productColumns : null;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,10 +74,12 @@ const DataTable = () => {
     },
   ];
 
+
+
   return (
     <div className="dataTable">
       <div className="dataTableTitle">
-        Add New User
+      {type}
         <Link to="/users/new" className="link">
           Add new
         </Link>
@@ -82,8 +87,8 @@ const DataTable = () => {
       <DataGrid
         sx={{ "& .MuiDataGrid-cell": { borderColor: "#333" } }}
         className="dataGrid"
-        rows={myRows}
-        columns={userColumns.concat(actionCulumn)}
+        rows={rowsType}
+        columns={culumnType.concat(actionCulumn)}
         pageSize={9}
         rowsPerPageOptions={[9]}
         checkboxSelection

@@ -19,6 +19,26 @@ export const userColumns = [
       return <div className={`cellWithStatus ${params.row.status}`}>{params.row.status}</div>
     }},
 ];
+export const productColumns = [
+    { field: 'id', headerName: 'ID', width: 70 },
+    {
+      field: 'title',
+      headerName: 'Title',
+      width: 260,
+      renderCell:(param)=>{
+        return(
+            <div className="cellWrapper">
+            <img className="cellWithImg" src={param.row.img} />
+            {param.row.title}
+            </div>
+        )
+      },
+    },
+    { field: 'producer', headerName: 'Producer', width: 180 },    
+    {field: 'status' , headerName: 'Status' , width:160 , renderCell: (params)=>{
+      return <div className={`cellWithStatus ${params.row.status}`}>{params.row.status}</div>
+    }},
+];
 
 
 //temporary data
@@ -103,4 +123,24 @@ export const userRows = [
       status: "active",
       age: 65,
     },
+  ];
+
+//temporary data
+export const productsRows = [
+    {
+      id: 1,
+      title: "Iphone",
+      img: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-14-pro-model-unselect-gallery-2-202209_GEO_EMEA?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1660753617539",
+      status: "active",
+      stock: 25,
+      producer: "digikala",
+    },
+    {
+      id: 2,
+      title: "laptop",
+      img: "https://www.scandinavianphoto.no/globalassets/1054104_proart-studiobook-16-oled-03.jpg?ref=3F326239A4&w=960&h=960&mode=max",
+      status: "pending",
+      stock: 16,
+      producer: "asusProducer",
+    }
   ];

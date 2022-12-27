@@ -3,13 +3,13 @@ import Navbar from "../../components/navbar/Navbar"
 import Sidebar from "../../components/sidebar/Sidebar"
 import "./list.scss"
 
-const List = () => {
+const List = ({type}) => {
   return (
     <div className="list">
       <Sidebar/>
       <div className="listContainer">
         <Navbar/>
-        <DataTable/>
+        <DataTable type={type}/>
       </div>
     </div>
   )
