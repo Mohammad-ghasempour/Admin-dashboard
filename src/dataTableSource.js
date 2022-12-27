@@ -2,20 +2,19 @@
 export const userColumns = [
     { field: 'id', headerName: 'ID', width: 70 },
     {
-      field: 'username',
+      field: 'userName',
       headerName: 'User name',
       width: 230,
       renderCell:(param)=>{
         return(
             <div className="cellWrapper">
-            <img className="cellWithImg" src={param.row.img} />
-            {param.row.username}
+            <img className="cellWithImg" src={param.row.imgUrl} />
+            {param.row.userName}
             </div>
         )
       },
     },
     {field: 'email' , headerName: 'Email' , width:230},
-    {field: 'age' , headerName: 'Age' , width:100},
     {field: 'status' , headerName: 'Status' , width:160 , renderCell: (params)=>{
       return <div className={`cellWithStatus ${params.row.status}`}>{params.row.status}</div>
     }},

@@ -85,7 +85,6 @@ const New = ({ inputs, title }) => {
         ...data,
         timeStamp: serverTimestamp(),
       });
-      /////////////////////////////////
       navigate(-1);
     } catch (error) {
       console.log(error);
