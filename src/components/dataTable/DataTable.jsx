@@ -51,7 +51,9 @@ const DataTable = ({ type }) => {
           collection(db, "products"),
           (snapshot) => {
             snapshot.docs.forEach((doc) => {
-              productsList.push({ id: doc.id, ...doc.data() });
+              const id = doc.id;
+              const data = doc.data();
+              productsList.push({ id: id, ...data });
             });
             setProductsRows(productsList);
           },
@@ -83,8 +85,14 @@ const DataTable = ({ type }) => {
   }, []);
 
   const handleDelete = async (id) => {
-    const name = userRows.find((item) => item.id == id);
-    var answer = window.confirm(
+
+    const name = rowsType.find((item) => item.id == id);
+
+    switch (type) {
+      case "Users":
+        //
+
+         var answer = window.confirm(
       "are you sure to delete  '" + name.userName + "'  from database?!"
     );
     if (answer) {
@@ -97,6 +105,47 @@ const DataTable = ({ type }) => {
     } else {
       return;
     }
+        break;
+
+
+        case "Products":
+                var answer = window.confirm(
+          "are you sure to delete  '" + name.title + "'  from database?!"
+        );
+        if (answer) {
+          try {
+            await deleteDoc(doc(db, "products", id));
+            setProductsRows(productsRows.filter((item) => item.id !== id));
+          } catch (err) {
+            console.log(err);
+          }
+        } else {
+          return;
+        }
+
+
+
+        break;
+      
+      default:
+        break;
+    }
+
+   
+    // const name = userRows.find((item) => item.id == id);
+    // var answer = window.confirm(
+    //   "are you sure to delete  '" + name.userName + "'  from database?!"
+    // );
+    // if (answer) {
+    //   try {
+    //     await deleteDoc(doc(db, "users", id));
+    //     setUserRows(userRows.filter((item) => item.id !== id));
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    // } else {
+    //   return;
+    // }
   };
   const actionCulumn = [
     {
