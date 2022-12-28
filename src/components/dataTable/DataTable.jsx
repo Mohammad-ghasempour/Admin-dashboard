@@ -1,22 +1,35 @@
 import "./dataTable.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import "../../dataTableSource";
-import { userRows , productsRows } from "../../dataTableSource";
-import { userColumns , productColumns } from "../../dataTableSource";
+//import { userRows, productsRows } from "../../dataTableSource";
+import { userColumns, productColumns } from "../../dataTableSource";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  doc,
+  deleteDoc,
+  onSnapshot,
+} from "firebase/firestore";
 import { db } from "../../firebase";
 
-const DataTable = ({type}) => {
-  const [myRows, setMyRows] = useState([]);
+const DataTable = ({ type }) => {
+  const [userRows, setUserRows] = useState([]);
+  const [productsRows, setProductsRows] = useState([]);
 
-  const rowsType = type === "Users" ? myRows : type === "Products" ? productsRows : null;
-  const culumnType = type === "Users" ? userColumns : type === "Products" ? productColumns : null;
+  const rowsType =
+    type === "Users" ? userRows : type === "Products" ? productsRows : null;
+  const culumnType =
+    type === "Users"
+      ? userColumns
+      : type === "Products"
+      ? productColumns
+      : null;
 
   useEffect(() => {
-    const fetchData = async () => {
-      var list = [];
+    const fetchUsers = async () => {
+      var userList = [];
       try {
         const querySnapshot = await getDocs(collection(db, "users"));
         querySnapshot.forEach((doc) => {
@@ -24,26 +37,60 @@ const DataTable = ({type}) => {
           //console.log(doc.id, " => ", doc.data());
           const id = doc.id;
           const data = doc.data();
-          list.push({ id: id, ...data });
+          userList.push({ id: id, ...data });
         });
-        setMyRows(list);
+        setUserRows(userList);
       } catch (error) {
         console.log(error);
       }
     };
-    fetchData();
+    const fetchProducts = async () => {
+      var productsList = [];
+      try {
+        const unsub = onSnapshot(
+          collection(db, "products"),
+          (snapshot) => {
+            snapshot.docs.forEach((doc) => {
+              productsList.push({ id: doc.id, ...doc.data() });
+            });
+            setProductsRows(productsList);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    switch (type) {
+      case "Users":
+        fetchUsers();
+        break;
+
+      case "Products":
+        fetchProducts();
+        break;
+
+      default:
+        break;
+    }
+
+    return () => {
+      fetchProducts();
+      fetchUsers();
+    };
   }, []);
-  console.log(myRows);
 
   const handleDelete = async (id) => {
-    const name = myRows.find((item) => item.id == id);
+    const name = userRows.find((item) => item.id == id);
     var answer = window.confirm(
       "are you sure to delete  '" + name.userName + "'  from database?!"
     );
     if (answer) {
       try {
         await deleteDoc(doc(db, "users", id));
-        setMyRows(myRows.filter((item) => item.id !== id));
+        setUserRows(userRows.filter((item) => item.id !== id));
       } catch (err) {
         console.log(err);
       }
@@ -74,13 +121,11 @@ const DataTable = ({type}) => {
     },
   ];
 
-
-
   return (
     <div className="dataTable">
       <div className="dataTableTitle">
-      {type}
-        <Link to="/users/new" className="link">
+        {type}
+        <Link to={`/${type}/new`} className="link">
           Add new
         </Link>
       </div>

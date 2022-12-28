@@ -20,18 +20,15 @@ import {
 } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 
-const New = ({ inputs, title }) => {
+const New = ({ inputs, title , type }) => {
   const [file, setFile] = useState("");
   const [data, setData] = useState({});
   const [percentage, setPercentage] = useState(null);
-
   const navigate = useNavigate();
-
 
   useEffect(() => {
     const uploadImage = () => {
       const fileName = new Date().getTime() + file.name;
-
       const storageRef = ref(storage, fileName);
       const uploadTask = uploadBytesResumable(storageRef, file);
 
@@ -64,8 +61,6 @@ const New = ({ inputs, title }) => {
     file && uploadImage();
   }, [file]);
 
-  console.log(data);
-
   const handleInput = (e) => {
     const id = e.target.id;
     const value = e.target.value;
@@ -74,20 +69,39 @@ const New = ({ inputs, title }) => {
 
   const handleAdd = async (e) => {
     e.preventDefault();
-    try {
-      const res = await createUserWithEmailAndPassword(
-        auth,
-        data.email,
-        data.password
-      );
+    console.log(type);
+    switch (type) {
+      case "Users":
+        try {
+          const res = await createUserWithEmailAndPassword(
+            auth,
+            data.email,
+            data.password
+          );
 
-      await setDoc(doc(db, "users", res.user.uid), {
-        ...data,
-        timeStamp: serverTimestamp(),
-      });
-      navigate(-1);
-    } catch (error) {
-      console.log(error);
+          await setDoc(doc(db, "users", res.user.uid), {
+            ...data,
+            timeStamp: serverTimestamp(),
+          });
+          navigate(-1);
+        } catch (error) {
+          console.log(error);
+        }
+
+      case "Products":
+       
+        try{
+        await setDoc(doc(db, "products", (new Date().getTime()+ data.title)), {
+          ...data,
+          timeStamp: serverTimestamp(),
+        });
+        navigate(-1);
+      } catch (error) {
+        console.log(error);
+      }
+
+      default:
+        break;
     }
   };
 
