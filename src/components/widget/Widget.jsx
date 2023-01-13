@@ -1,11 +1,11 @@
 import "./widget.scss";
 import ExpandLessOutlinedIcon from "@mui/icons-material/ExpandLessOutlined";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
 import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
 import { useEffect, useState } from "react";
-import { Collections } from "@mui/icons-material";
 import { db } from "../../firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
 
@@ -19,6 +19,7 @@ const Widget = ({ type }) => {
     case "users":
       data = {
         title: "USERS",
+        query: "users",
         isMoney: false,
         link: "see all users",
         icon: (
@@ -29,11 +30,12 @@ const Widget = ({ type }) => {
         ),
       };
       break;
-    case "orders":
+    case "products":
       data = {
-        title: "ORDERS",
+        title: "PRODUCT",
+        query: "products",
         isMoney: false,
-        link: "see all orders",
+        link: "see all products",
         icon: (
           <ShoppingCartOutlinedIcon
             className="icon"
@@ -48,6 +50,7 @@ const Widget = ({ type }) => {
     case "earnings":
       data = {
         title: "EARNING",
+        query: "earnings",
         isMoney: true,
         link: "view net earning",
         icon: (
@@ -61,6 +64,7 @@ const Widget = ({ type }) => {
     case "myBalance":
       data = {
         title: "BALANCE",
+        query: "myBalance",
         isMoney: true,
         link: "see details",
         icon: (
@@ -83,12 +87,12 @@ const Widget = ({ type }) => {
       const prevMonth = new Date(new Date().setMonth(today.getMonth() - 2));
 
       const lastMonthData = query(
-        collection(db, "users"),
+        collection(db, data.query),
         where("timeStamp", "<=", today),
         where("timeStamp", ">", lastMonth)
       );
       const prevMonthData = query(
-        collection(db, "users"),
+        collection(db, data.query),
         where("timeStamp", "<=", lastMonth),
         where("timeStamp", ">", prevMonth)
       );
@@ -100,9 +104,11 @@ const Widget = ({ type }) => {
       const prevMonthUsersCount = querySnapshotPrevMonth.docs.length;
 
       setUsersCount(lastMonthUsersCount);
-      setDiff(
+      setDiff(Math.round(
+
         ((lastMonthUsersCount - prevMonthUsersCount) / prevMonthUsersCount) *
-          100
+        100
+        ) || 0
       );
     };
 
@@ -120,8 +126,8 @@ const Widget = ({ type }) => {
         <span className="link">{data.link}</span>
       </div>
       <div className="right">
-        <div className="percentage positive">
-          <ExpandLessOutlinedIcon />
+        <div className= {`percentage ${diff>=0? "positive" : "negative"}`}>
+          { diff>=0? <ExpandLessOutlinedIcon /> : <ExpandMoreIcon/>}
           {diff}%
         </div>
         {data.icon}
